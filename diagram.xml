@@ -1,0 +1,50 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="TechMarket API ERD" id="TechMarketERD">
+    <mxGraphModel dx="1062" dy="657" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+        <!-- User -->
+        <mxCell id="user" value="User&#10;- id : UUID (PK)&#10;- email : VARCHAR&#10;- password : VARCHAR&#10;- role : ENUM(USER/ADMIN)&#10;- created_at : TIMESTAMP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEB3B" vertex="1" parent="1">
+          <mxGeometry x="100" y="100" width="200" height="120" as="geometry"/>
+        </mxCell>
+        
+        <!-- Listing -->
+        <mxCell id="listing" value="Listing&#10;- id : UUID (PK)&#10;- title : VARCHAR&#10;- brand : VARCHAR&#10;- price : DECIMAL&#10;- condition : ENUM(NEW/USED)&#10;- status : ENUM(ACTIVE/RESERVED/SOLD)&#10;- owner_id : UUID (FK)&#10;- created_at : TIMESTAMP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#8BC34A" vertex="1" parent="1">
+          <mxGeometry x="400" y="100" width="220" height="160" as="geometry"/>
+        </mxCell>
+        
+        <!-- Deal -->
+        <mxCell id="deal" value="Deal&#10;- id : UUID (PK)&#10;- listing_id : UUID (FK)&#10;- buyer_id : UUID (FK)&#10;- status : ENUM(PENDING/APPROVED/COMPLETED)&#10;- created_at : TIMESTAMP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#03A9F4" vertex="1" parent="1">
+          <mxGeometry x="250" y="300" width="220" height="140" as="geometry"/>
+        </mxCell>
+        
+        <!-- User → Listing -->
+        <mxCell id="user_listing" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;" edge="1" parent="1" source="user" target="listing">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="user_listing_label" value="1:N" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;" vertex="1" parent="user_listing">
+          <mxGeometry x="0.5" y="-20" relative="1" as="geometry"/>
+        </mxCell>
+        
+        <!-- User → Deal -->
+        <mxCell id="user_deal" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;" edge="1" parent="1" source="user" target="deal">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="user_deal_label" value="1:N" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;" vertex="1" parent="user_deal">
+          <mxGeometry x="0.5" y="-20" relative="1" as="geometry"/>
+        </mxCell>
+        
+        <!-- Listing → Deal -->
+        <mxCell id="listing_deal" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;" edge="1" parent="1" source="listing" target="deal">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="listing_deal_label" value="1:1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;" vertex="1" parent="listing_deal">
+          <mxGeometry x="0.5" y="-20" relative="1" as="geometry"/>
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
