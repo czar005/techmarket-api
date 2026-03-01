@@ -1,0 +1,176 @@
+.
+├── .git
+│   ├── COMMIT_EDITMSG
+│   ├── FETCH_HEAD
+│   ├── HEAD
+│   ├── config
+│   ├── description
+│   ├── hooks
+│   │   ├── applypatch-msg.sample
+│   │   ├── commit-msg.sample
+│   │   ├── fsmonitor-watchman.sample
+│   │   ├── post-checkout
+│   │   ├── post-commit
+│   │   ├── post-merge
+│   │   ├── post-update.sample
+│   │   ├── pre-applypatch.sample
+│   │   ├── pre-commit.sample
+│   │   ├── pre-merge-commit.sample
+│   │   ├── pre-push
+│   │   ├── pre-push.sample
+│   │   ├── pre-rebase.sample
+│   │   ├── pre-receive.sample
+│   │   ├── prepare-commit-msg.sample
+│   │   ├── push-to-checkout.sample
+│   │   ├── sendemail-validate.sample
+│   │   └── update.sample
+│   ├── index
+│   ├── info
+│   │   └── exclude
+│   ├── lfs
+│   │   └── tmp
+│   ├── logs
+│   │   ├── HEAD
+│   │   └── refs
+│   │       ├── heads
+│   │       │   └── main
+│   │       └── remotes
+│   │           └── origin
+│   │               └── HEAD
+│   ├── objects
+│   │   ├── 01
+│   │   │   └── ebb951ce11ef17e0159d60ba290506ee3bbd8e
+│   │   ├── 14
+│   │   │   └── 60d3bde507d909adf079128f7ee97bcb818f49
+│   │   ├── 23
+│   │   │   └── 49955d7996cd82731fc538da4a65381e38f0f2
+│   │   ├── 4a
+│   │   │   └── df8ac3bba055088e0c62d67b3a67b2df1ae298
+│   │   ├── 58
+│   │   │   └── 431a0e41857ae35f0f16a261807450e74bc1de
+│   │   ├── 60
+│   │   │   └── 1ca9210b8a34d2e75b22254c81d88b9b6eaea3
+│   │   ├── 64
+│   │   │   └── 8f041abd30cebfe322795101e866530addc49b
+│   │   ├── 74
+│   │   │   └── 179d342db27a3a5af0f7ae3afd241f5aa29a88
+│   │   ├── 7f
+│   │   │   └── 4db6ddaf4bbe62e33f96efb0858412e7b0cbed
+│   │   ├── 8b
+│   │   │   └── 137891791fe96927ad78e64b0aad7bded08bdc
+│   │   ├── 8d
+│   │   │   └── 973c725d784bf813d31bc29b8f650f3c93cf8a
+│   │   ├── b3
+│   │   │   └── 3ed4385dd4097bf6cac2ba419319133640537c
+│   │   ├── c0
+│   │   │   └── cbdf85350c5591e474f8666e9f1115197f1c60
+│   │   ├── c3
+│   │   │   └── 830ca0def3e7242699a32ef048d5077ab1c4e5
+│   │   ├── e5
+│   │   │   └── d15228edb77f86184ed0790305aa5e4d311005
+│   │   ├── ec
+│   │   │   └── 5e1a45bf013b42aaa4e1796f45e069a5169ab7
+│   │   ├── info
+│   │   └── pack
+│   │       ├── pack-5af33b92696758d1fc8bc3c0c2c903706365359a.idx
+│   │       ├── pack-5af33b92696758d1fc8bc3c0c2c903706365359a.pack
+│   │       └── pack-5af33b92696758d1fc8bc3c0c2c903706365359a.rev
+│   ├── packed-refs
+│   └── refs
+│       ├── heads
+│       │   └── main
+│       ├── remotes
+│       │   └── origin
+│       │       └── HEAD
+│       └── tags
+├── .gitignore
+├── DECOMPOSITION.md
+├── LICENSE
+├── TechMarketApiApplication.java
+├── architecture
+│   └── architecture_01.md
+├── config
+│   ├── JwtAuthenticationFilter.java
+│   └── SecurityConfig.java
+├── controller
+│   └── AuthController.java
+├── dto
+│   ├── AuthResponse.java
+│   ├── LoginRequest.java
+│   └── RegisterRequest.java
+├── model
+│   ├── Role.java
+│   └── User.java
+├── pom.xml
+├── project-structure.txt
+├── repository
+│   └── UserRepository.java
+├── security
+│   └── CustomUserDetailsService.java
+├── service
+│   ├── AuthService.java
+│   └── JwtService.java
+├── src
+│   └── main
+│       └── resources
+│           └── application.yml
+└── techmarket-api
+    ├── .git
+    │   ├── HEAD
+    │   ├── config
+    │   ├── description
+    │   ├── hooks
+    │   │   ├── applypatch-msg.sample
+    │   │   ├── commit-msg.sample
+    │   │   ├── fsmonitor-watchman.sample
+    │   │   ├── post-update.sample
+    │   │   ├── pre-applypatch.sample
+    │   │   ├── pre-commit.sample
+    │   │   ├── pre-merge-commit.sample
+    │   │   ├── pre-push.sample
+    │   │   ├── pre-rebase.sample
+    │   │   ├── pre-receive.sample
+    │   │   ├── prepare-commit-msg.sample
+    │   │   ├── push-to-checkout.sample
+    │   │   ├── sendemail-validate.sample
+    │   │   └── update.sample
+    │   ├── index
+    │   ├── info
+    │   │   └── exclude
+    │   ├── logs
+    │   │   ├── HEAD
+    │   │   └── refs
+    │   │       ├── heads
+    │   │       │   └── main
+    │   │       └── remotes
+    │   │           └── origin
+    │   │               └── HEAD
+    │   ├── objects
+    │   │   ├── info
+    │   │   └── pack
+    │   │       ├── pack-3e80346c2a195f18713499c54f97ec92a6de00a6.idx
+    │   │       ├── pack-3e80346c2a195f18713499c54f97ec92a6de00a6.pack
+    │   │       └── pack-3e80346c2a195f18713499c54f97ec92a6de00a6.rev
+    │   ├── packed-refs
+    │   └── refs
+    │       ├── heads
+    │       │   └── main
+    │       ├── remotes
+    │       │   └── origin
+    │       │       └── HEAD
+    │       └── tags
+    ├── .gitignore
+    ├── DECOMPOSITION.md
+    ├── LICENSE
+    └── architecture
+        ├── Layered.png
+        ├── Pios_microservices.drawio (1).png
+        ├── Pios_microservices.drawio.png
+        ├── architecture.md
+        ├── c4.png
+        ├── er-bd.png
+        ├── jwt.png
+        ├── sequence.png
+        └── use-case.png
+
+64 directories, 110 files

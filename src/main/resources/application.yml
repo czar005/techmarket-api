@@ -1,0 +1,19 @@
+jwt:
+  secret: CBultGQ8fB/5wHIeA11EemoHtkYiWDnOmUAhZN971Bc=
+  expiration: 86400000
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:techmarket
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+      server:
+  port: 8080
+  address: 0.0.0.0   # слушать все интерфейсы, чтобы можно было подключиться извне
