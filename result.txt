@@ -1,3 +1,4 @@
+mvn spring-boot:run
 ### ./DECOMPOSITION.md ###
 # Декомпозиция проекта «TechMarket API»
 
