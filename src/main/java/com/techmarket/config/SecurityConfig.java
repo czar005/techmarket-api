@@ -28,6 +28,12 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/api/auth/**").permitAll()  // Разрешаем корневой и auth эндпоинты
+                        .requestMatchers("/api/listings").permitAll()  // Разрешаем просмотр объявлений без аутентификации
+                        .requestMatchers("/api/listings/{id}").permitAll()  // Разрешаем просмотр конкретного объявления
+                        .requestMatchers("/api/listings/brand/**").permitAll()  // Разрешаем фильтрацию по бренду
+                        .requestMatchers("/api/listings/condition/**").permitAll()  // Разрешаем фильтрацию по состоянию
+                        .requestMatchers("/api/listings/price-range").permitAll()  // Разрешаем фильтрацию по цене
+                        .requestMatchers("/api/listings/filter").permitAll()  // Разрешаем фильтрацию
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter,
