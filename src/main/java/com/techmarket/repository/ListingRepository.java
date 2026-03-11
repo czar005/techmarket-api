@@ -15,31 +15,22 @@ import java.util.List;
 @Repository
 public interface ListingRepository extends JpaRepository<Listing, Long> {
 
-    // Find listings by owner
     List<Listing> findByOwner(com.techmarket.model.User owner);
     
-    // Find listings by status
     List<Listing> findByStatus(Status status);
     
-    // Find listings by brand
     List<Listing> findByBrand(String brand);
     
-    // Find listings by condition
     List<Listing> findByCondition(com.techmarket.model.Condition condition);
     
-    // Find listings by price range
     List<Listing> findByPriceBetween(BigDecimal minPrice, BigDecimal maxPrice);
     
-    // Find listings by brand and condition
     List<Listing> findByBrandAndCondition(String brand, com.techmarket.model.Condition condition);
     
-    // Find listings by brand and price range
     List<Listing> findByBrandAndPriceBetween(String brand, BigDecimal minPrice, BigDecimal maxPrice);
     
-    // Find listings by condition and price range
     List<Listing> findByConditionAndPriceBetween(com.techmarket.model.Condition condition, BigDecimal minPrice, BigDecimal maxPrice);
     
-    // Find listings by brand, condition, and price range
     List<Listing> findByBrandAndConditionAndPriceBetween(
         String brand, 
         com.techmarket.model.Condition condition, 
@@ -47,10 +38,8 @@ public interface ListingRepository extends JpaRepository<Listing, Long> {
         BigDecimal maxPrice
     );
     
-    // Find active listings with pagination
     Page<Listing> findByStatus(Status status, Pageable pageable);
     
-    // Custom query for filtering with optional parameters
     @Query("SELECT l FROM Listing l WHERE " +
            "(:brand IS NULL OR l.brand = :brand) AND " +
            "(:condition IS NULL OR l.condition = :condition) AND " +
