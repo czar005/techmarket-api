@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/listings/condition/**").permitAll()  // Разрешаем фильтрацию по состоянию
                         .requestMatchers("/api/listings/price-range").permitAll()  // Разрешаем фильтрацию по цене
                         .requestMatchers("/api/listings/filter").permitAll()  // Разрешаем фильтрацию
+                        .requestMatchers("/api/deals/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter,
