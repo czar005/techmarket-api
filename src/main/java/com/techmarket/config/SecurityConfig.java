@@ -27,15 +27,32 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/api/auth/**").permitAll()  // Разрешаем корневой и auth эндпоинты
-                        .requestMatchers("/api/listings").permitAll()  // Разрешаем просмотр объявлений без аутентификации
-                        .requestMatchers("/api/listings/{id}").permitAll()  // Разрешаем просмотр конкретного объявления
-                        .requestMatchers("/api/listings/brand/**").permitAll()  // Разрешаем фильтрацию по бренду
-                        .requestMatchers("/api/listings/condition/**").permitAll()  // Разрешаем фильтрацию по состоянию
-                        .requestMatchers("/api/listings/price-range").permitAll()  // Разрешаем фильтрацию по цене
-                        .requestMatchers("/api/listings/filter").permitAll()  // Разрешаем фильтрацию
+                        // ========== ДОБАВЛЕНО: Swagger UI и OpenAPI ==========
+                        .requestMatchers(
+                            "/swagger-ui.html",
+                            "/swagger-ui/**",
+                            "/v3/api-docs/**",
+                            "/v3/api-docs",
+                            "/swagger-resources/**",
+                            "/swagger-resources",
+                            "/webjars/**",
+                            "/api-docs/**"
+                        ).permitAll()
+                        // ===================================================
+                        
+                        // Публичные эндпоинты
+                        .requestMatchers("/", "/api/auth/**").permitAll()
+                        .requestMatchers("/api/listings").permitAll()
+                        .requestMatchers("/api/listings/{id}").permitAll()
+                        .requestMatchers("/api/listings/brand/**").permitAll()
+                        .requestMatchers("/api/listings/condition/**").permitAll()
+                        .requestMatchers("/api/listings/price-range").permitAll()
+                        .requestMatchers("/api/listings/filter").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
+                        
+                        // Защищенные эндпоинты
                         .requestMatchers("/api/deals/**").authenticated()
-                        .requestMatchers("/actuator/**").permitAll() //чтобы докер мог пропинговать состояние
+                        
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter,
