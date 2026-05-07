@@ -104,13 +104,22 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+<<<<<<< HEAD
         
         <!-- Spring Security Test -->
+=======
+
+        <!-- Spring Security Test (для @WithMockUser в тестах контроллера) -->
+>>>>>>> 61d68c06eb9d6628eab6144a9951db4ca87761b4
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 61d68c06eb9d6628eab6144a9951db4ca87761b4
     </dependencies>
 
     <build>
