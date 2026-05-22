@@ -148,6 +148,50 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- PMD -->
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-pmd-plugin</artifactId>
+    <version>3.24.0</version>
+    <configuration>
+        <rulesets>
+            <ruleset>config/pmd/pmd_ruleset.xml</ruleset>
+        </rulesets>
+        <failOnViolation>true</failOnViolation>
+        <printFailingErrors>true</printFailingErrors>
+        <targetJdk>17</targetJdk>
+    </configuration>
+    <executions>
+        <execution>
+            <id>validate</id>
+            <phase>validate</phase>
+            <goals>
+                <goal>check</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+
+<!-- fmt-maven-plugin (Google Java Format) -->
+<plugin>
+    <groupId>com.spotify.fmt</groupId>
+    <artifactId>fmt-maven-plugin</artifactId>
+    <version>2.22.1</version>
+    <configuration>
+        <style>google</style>
+        <verbose>false</verbose>
+    </configuration>
+    <executions>
+        <execution>
+            <id>check-format</id>
+            <phase>validate</phase>
+            <goals>
+                <goal>check</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
         </plugins>
     </build>
 </project>

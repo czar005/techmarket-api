@@ -1,14 +1,17 @@
 package com.techmarket.service;
 
+import com.techmarket.dto.ListingFilterRequest;
 import com.techmarket.dto.ListingRequest;
 import com.techmarket.dto.ListingResponse;
-import com.techmarket.dto.ListingFilterRequest;
 import com.techmarket.model.Condition;
 import com.techmarket.model.Listing;
 import com.techmarket.model.Status;
 import com.techmarket.model.User;
 import com.techmarket.repository.ListingRepository;
 import com.techmarket.repository.UserRepository;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,159 +19,152 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 public class ListingService {
 
-    private final ListingRepository listingRepository;
-    private final UserRepository userRepository;
+  private final ListingRepository listingRepository;
+  private final UserRepository userRepository;
 
-    @Autowired
-    public ListingService(ListingRepository listingRepository, UserRepository userRepository) {
-        this.listingRepository = listingRepository;
-        this.userRepository = userRepository;
+  @Autowired
+  public ListingService(ListingRepository listingRepository, UserRepository userRepository) {
+    this.listingRepository = listingRepository;
+    this.userRepository = userRepository;
+  }
+
+  public ListingResponse createListing(ListingRequest request, String email) {
+    User owner =
+        userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+
+    Listing listing =
+        new Listing(
+            request.getTitle(),
+            request.getBrand(),
+            request.getPrice(),
+            request.getCondition(),
+            Status.Active,
+            owner);
+
+    Listing savedListing = listingRepository.save(listing);
+
+    return convertToListingResponse(savedListing);
+  }
+
+  public ListingResponse getListingById(Long id) {
+    Listing listing =
+        listingRepository.findById(id).orElseThrow(() -> new RuntimeException("Listing not found"));
+
+    return convertToListingResponse(listing);
+  }
+
+  public List<ListingResponse> getUserListings(String email) {
+    User owner =
+        userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+
+    List<Listing> listings = listingRepository.findByOwner(owner);
+
+    return listings.stream().map(this::convertToListingResponse).collect(Collectors.toList());
+  }
+
+  public ListingResponse updateListing(Long id, ListingRequest request, String email) {
+    Listing listing =
+        listingRepository.findById(id).orElseThrow(() -> new RuntimeException("Listing not found"));
+
+    // Проверка, что пользователь является владельцем
+    User currentUser =
+        userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+
+    if (!listing.getOwner().getId().equals(currentUser.getId())) {
+      throw new RuntimeException("You can only update your own listings");
     }
 
-    public ListingResponse createListing(ListingRequest request, String email) {
-        User owner = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    listing.setTitle(request.getTitle());
+    listing.setBrand(request.getBrand());
+    listing.setPrice(request.getPrice());
+    listing.setCondition(request.getCondition());
 
-        Listing listing = new Listing(
-                request.getTitle(),
-                request.getBrand(),
-                request.getPrice(),
-                request.getCondition(),
-                Status.Active,
-                owner
-        );
+    Listing updatedListing = listingRepository.save(listing);
 
-        Listing savedListing = listingRepository.save(listing);
-        
-        return convertToListingResponse(savedListing);
+    return convertToListingResponse(updatedListing);
+  }
+
+  public void deleteListing(Long id, String email) {
+    Listing listing =
+        listingRepository.findById(id).orElseThrow(() -> new RuntimeException("Listing not found"));
+
+    // Проверка, что пользователь является владельцем
+    User currentUser =
+        userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+
+    if (!listing.getOwner().getId().equals(currentUser.getId())) {
+      throw new RuntimeException("You can only delete your own listings");
     }
 
-    public ListingResponse getListingById(Long id) {
-        Listing listing = listingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Listing not found"));
-        
-        return convertToListingResponse(listing);
-    }
+    listingRepository.delete(listing);
+  }
 
-    public List<ListingResponse> getUserListings(String email) {
-        User owner = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+  public Page<ListingResponse> getAllListings(int page, int size, String sortBy, String direction) {
+    Sort sort =
+        direction.equalsIgnoreCase("desc")
+            ? Sort.by(sortBy).descending()
+            : Sort.by(sortBy).ascending();
 
-        List<Listing> listings = listingRepository.findByOwner(owner);
-        
-        return listings.stream()
-                .map(this::convertToListingResponse)
-                .collect(Collectors.toList());
-    }
+    Pageable pageable = PageRequest.of(page, size, sort);
 
-    public ListingResponse updateListing(Long id, ListingRequest request, String email) {
-        Listing listing = listingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Listing not found"));
+    return listingRepository
+        .findByStatus(Status.Active, pageable)
+        .map(this::convertToListingResponse);
+  }
 
-        // Проверка, что пользователь является владельцем
-        User currentUser = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+  public Page<ListingResponse> filterListings(
+      ListingFilterRequest filter, int page, int size, String sortBy, String direction) {
+    Sort sort =
+        direction.equalsIgnoreCase("desc")
+            ? Sort.by(sortBy).descending()
+            : Sort.by(sortBy).ascending();
 
-        if (!listing.getOwner().getId().equals(currentUser.getId())) {
-            throw new RuntimeException("You can only update your own listings");
-        }
+    Pageable pageable = PageRequest.of(page, size, sort);
 
-        listing.setTitle(request.getTitle());
-        listing.setBrand(request.getBrand());
-        listing.setPrice(request.getPrice());
-        listing.setCondition(request.getCondition());
+    return listingRepository
+        .findWithFilters(
+            filter.getBrand(),
+            filter.getCondition(),
+            filter.getMinPrice(),
+            filter.getMaxPrice(),
+            Status.Active,
+            pageable)
+        .map(this::convertToListingResponse);
+  }
 
-        Listing updatedListing = listingRepository.save(listing);
-        
-        return convertToListingResponse(updatedListing);
-    }
+  public List<ListingResponse> findByBrand(String brand) {
+    List<Listing> listings = listingRepository.findByBrand(brand);
 
-    public void deleteListing(Long id, String email) {
-        Listing listing = listingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Listing not found"));
+    return listings.stream().map(this::convertToListingResponse).collect(Collectors.toList());
+  }
 
-        // Проверка, что пользователь является владельцем
-        User currentUser = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+  public List<ListingResponse> findByCondition(Condition condition) {
+    List<Listing> listings = listingRepository.findByCondition(condition);
 
-        if (!listing.getOwner().getId().equals(currentUser.getId())) {
-            throw new RuntimeException("You can only delete your own listings");
-        }
+    return listings.stream().map(this::convertToListingResponse).collect(Collectors.toList());
+  }
 
-        listingRepository.delete(listing);
-    }
+  public List<ListingResponse> findByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
+    List<Listing> listings = listingRepository.findByPriceBetween(minPrice, maxPrice);
 
-    public Page<ListingResponse> getAllListings(int page, int size, String sortBy, String direction) {
-        Sort sort = direction.equalsIgnoreCase("desc") 
-                ? Sort.by(sortBy).descending() 
-                : Sort.by(sortBy).ascending();
-        
-        Pageable pageable = PageRequest.of(page, size, sort);
-        
-        return listingRepository.findByStatus(Status.Active, pageable)
-                .map(this::convertToListingResponse);
-    }
+    return listings.stream().map(this::convertToListingResponse).collect(Collectors.toList());
+  }
 
-    public Page<ListingResponse> filterListings(ListingFilterRequest filter, int page, int size, String sortBy, String direction) {
-        Sort sort = direction.equalsIgnoreCase("desc") 
-                ? Sort.by(sortBy).descending() 
-                : Sort.by(sortBy).ascending();
-        
-        Pageable pageable = PageRequest.of(page, size, sort);
-        
-        return listingRepository.findWithFilters(
-                filter.getBrand(),
-                filter.getCondition(),
-                filter.getMinPrice(),
-                filter.getMaxPrice(),
-                Status.Active,
-                pageable
-        ).map(this::convertToListingResponse);
-    }
-
-    public List<ListingResponse> findByBrand(String brand) {
-        List<Listing> listings = listingRepository.findByBrand(brand);
-        
-        return listings.stream()
-                .map(this::convertToListingResponse)
-                .collect(Collectors.toList());
-    }
-
-    public List<ListingResponse> findByCondition(Condition condition) {
-        List<Listing> listings = listingRepository.findByCondition(condition);
-        
-        return listings.stream()
-                .map(this::convertToListingResponse)
-                .collect(Collectors.toList());
-    }
-
-    public List<ListingResponse> findByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
-        List<Listing> listings = listingRepository.findByPriceBetween(minPrice, maxPrice);
-        
-        return listings.stream()
-                .map(this::convertToListingResponse)
-                .collect(Collectors.toList());
-    }
-
-    private ListingResponse convertToListingResponse(Listing listing) {
-        ListingResponse response = new ListingResponse(
-                listing.getId(),
-                listing.getTitle(),
-                listing.getBrand(),
-                listing.getPrice(),
-                listing.getCondition(),
-                listing.getStatus(),
-                listing.getOwner().getId(),
-                listing.getCreatedAt()
-        );
-        response.setUpdatedAt(listing.getUpdatedAt());
-        return response;
-    }
+  private ListingResponse convertToListingResponse(Listing listing) {
+    ListingResponse response =
+        new ListingResponse(
+            listing.getId(),
+            listing.getTitle(),
+            listing.getBrand(),
+            listing.getPrice(),
+            listing.getCondition(),
+            listing.getStatus(),
+            listing.getOwner().getId(),
+            listing.getCreatedAt());
+    response.setUpdatedAt(listing.getUpdatedAt());
+    return response;
+  }
 }

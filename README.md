@@ -41,6 +41,7 @@
 - **PostgreSQL 16** (при локальном запуске)
 
 ##  Запуск проекта
+## Локальное развертывание:
 # Запуск всех сервисов (app + postgres)
 docker-compose up -d
 
@@ -52,3 +53,5 @@ docker-compose down
 
 # Полная очистка (включая данные)
 docker-compose down -v
+
+## mvn spring-boot:run

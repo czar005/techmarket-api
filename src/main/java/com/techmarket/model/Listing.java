@@ -8,118 +8,124 @@ import java.time.LocalDateTime;
 @Table(name = "listings")
 public class Listing {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String title;
-    private String brand;
-    private BigDecimal price;
-    
-    @Enumerated(EnumType.STRING)
-    private Condition condition;
-    
-    @Enumerated(EnumType.STRING)
-    private Status status;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id")
-    private User owner;
-    
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-    
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+  private String title;
+  private String brand;
+  private BigDecimal price;
 
-    public Listing() {}
+  @Enumerated(EnumType.STRING)
+  private Condition condition;
 
-    public Listing(String title, String brand, BigDecimal price, Condition condition, Status status, User owner) {
-        this.title = title;
-        this.brand = brand;
-        this.price = price;
-        this.condition = condition;
-        this.status = status;
-        this.owner = owner;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
+  @Enumerated(EnumType.STRING)
+  private Status status;
 
-    public Long getId() {
-        return id;
-    }
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "owner_id")
+  private User owner;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  @Column(name = "created_at")
+  private LocalDateTime createdAt;
 
-    public String getTitle() {
-        return title;
-    }
+  @Column(name = "updated_at")
+  private LocalDateTime updatedAt;
 
-    public void setTitle(String title) {
-        this.title = title;
-        this.updatedAt = LocalDateTime.now();
-    }
+  public Listing() {}
 
-    public String getBrand() {
-        return brand;
-    }
+  public Listing(
+      String title,
+      String brand,
+      BigDecimal price,
+      Condition condition,
+      Status status,
+      User owner) {
+    this.title = title;
+    this.brand = brand;
+    this.price = price;
+    this.condition = condition;
+    this.status = status;
+    this.owner = owner;
+    this.createdAt = LocalDateTime.now();
+    this.updatedAt = LocalDateTime.now();
+  }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-        this.updatedAt = LocalDateTime.now();
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-        this.updatedAt = LocalDateTime.now();
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public Condition getCondition() {
-        return condition;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+    this.updatedAt = LocalDateTime.now();
+  }
 
-    public void setCondition(Condition condition) {
-        this.condition = condition;
-        this.updatedAt = LocalDateTime.now();
-    }
+  public String getBrand() {
+    return brand;
+  }
 
-    public Status getStatus() {
-        return status;
-    }
+  public void setBrand(String brand) {
+    this.brand = brand;
+    this.updatedAt = LocalDateTime.now();
+  }
 
-    public void setStatus(Status status) {
-        this.status = status;
-        this.updatedAt = LocalDateTime.now();
-    }
+  public BigDecimal getPrice() {
+    return price;
+  }
 
-    public User getOwner() {
-        return owner;
-    }
+  public void setPrice(BigDecimal price) {
+    this.price = price;
+    this.updatedAt = LocalDateTime.now();
+  }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
-        this.updatedAt = LocalDateTime.now();
-    }
+  public Condition getCondition() {
+    return condition;
+  }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+  public void setCondition(Condition condition) {
+    this.condition = condition;
+    this.updatedAt = LocalDateTime.now();
+  }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+  public Status getStatus() {
+    return status;
+  }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
+  public void setStatus(Status status) {
+    this.status = status;
+    this.updatedAt = LocalDateTime.now();
+  }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+  public User getOwner() {
+    return owner;
+  }
+
+  public void setOwner(User owner) {
+    this.owner = owner;
+    this.updatedAt = LocalDateTime.now();
+  }
+
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public LocalDateTime getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(LocalDateTime updatedAt) {
+    this.updatedAt = updatedAt;
+  }
 }
